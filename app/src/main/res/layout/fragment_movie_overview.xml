@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.MovieOverviewFragment"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/imgItemPoster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@color/light_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <CheckBox
+        android:id="@+id/btnAddFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_baseline_favorite_24"
+        android:button="@drawable/add_to_fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/imgItemPoster"/>
+
+    <TextView
+        android:id="@+id/txtItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Movie Title"
+        style="@style/Headline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgItemPoster"/>
+
+    <TextView
+        android:id="@+id/txtItemReleaseYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Release Year"
+        style="@style/Text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtItemTitle"/>
+
+    <TextView
+        android:id="@+id/txtItemAdult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="18+"
+        style="@style/Text"
+        app:layout_constraintStart_toEndOf="@id/txtItemReleaseYear"
+        app:layout_constraintTop_toBottomOf="@id/txtItemTitle"/>
+
+    <TextView
+        android:id="@+id/txtItemRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="5.8"
+        android:drawableStart="@drawable/ic_baseline_star_24"
+        android:drawablePadding="4dp"
+        style="@style/Text"
+        app:layout_constraintStart_toEndOf="@id/txtItemAdult"
+        app:layout_constraintTop_toBottomOf="@id/txtItemTitle"/>
+
+    <TextView
+        android:id="@+id/txtDescriptionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:layout_marginTop="5dp"
+        style="@style/Headline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtItemReleaseYear"/>
+
+    <TextView
+        android:id="@+id/txtitemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Movie Description"
+        style="@style/Text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDescriptionHeader"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

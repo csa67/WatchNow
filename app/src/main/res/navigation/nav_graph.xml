@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.tmdb.view.fragments.HomeFragment"
+        android:label="The MovieDB"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_movieOverviewFragment"
+            app:destination="@id/movieOverviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.tmdb.view.fragments.FavouritesFragment"
+        android:label="Favourite Movies"
+        tools:layout="@layout/fragment_favourites" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.tmdb.view.fragments.AccountFragment"
+        android:label="My account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/movieOverviewFragment"
+        android:name="com.example.tmdb.view.fragments.MovieOverviewFragment"
+        android:label="fragment_movie_overview"
+        tools:layout="@layout/fragment_movie_overview" >
+        <argument
+            android:name="movieTitle"
+            app:argType="string"
+            android:defaultValue="Movie Title" />
+        <argument
+            android:name="moviePoster"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="adult"
+            app:argType="string"
+            android:defaultValue="18+" />
+        <argument
+            android:name="releaseyear"
+            app:argType="string"
+            android:defaultValue="2021" />
+        <argument
+            android:name="rating"
+            android:defaultValue="5.1" />
+        <argument
+            android:name="fav"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+
+    </fragment>
+</navigation>
