@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface FavRepo {
 
     suspend fun addFavMovie(favMovie: FavMovie)
-    fun getFavMoviesList() : Flow<List<FavMovie>>
+    suspend fun getFavMoviesList() : Flow<List<FavMovie>>
     suspend fun delFavMovie(favMovie: FavMovie)
 }

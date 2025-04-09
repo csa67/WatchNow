@@ -8,7 +8,7 @@ import com.example.tmdb.repository.FavRepoImpl
 
 
 class FavViewModelFactory(private val repo:FavRepo): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FavViewModel::class.java)) {
             return FavViewModel(repo) as T
         }

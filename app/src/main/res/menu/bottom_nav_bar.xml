@@ -4,14 +4,10 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_home"/>
     <item
         android:id="@+id/favouritesFragment"
-        android:title="Favourites"
+        android:title="@string/favourites"
         android:icon="@drawable/ic_baseline_favorite_24"/>
-    <item
-        android:id="@+id/accountFragment"
-        android:title="Account"
-        android:icon="@drawable/ic_account"/>
 </menu>

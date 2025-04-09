@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardMovie"
@@ -9,28 +9,34 @@
     android:backgroundTint="@color/light_black">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imgPoster"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_margin="8dp"
+            app:layout_constraintDimensionRatio="2:3"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/txtMovieTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="3"
+            android:ellipsize="end"
             android:text="Movie Title"
-            android:layout_marginTop="5dp"
-            android:padding="5dp"
+            android:layout_marginTop="4dp"
+            android:padding="2dp"
             style="@style/MovieTitle"
+            android:textAlignment="center"
             app:layout_constraintStart_toStartOf="@id/imgPoster"
             app:layout_constraintEnd_toEndOf="@id/imgPoster"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgPoster"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

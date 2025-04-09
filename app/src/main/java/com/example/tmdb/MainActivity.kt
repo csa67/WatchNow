@@ -18,9 +18,14 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.navHostMain)
 
         //To change action bar title
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.favouritesFragment,R.id.accountFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.favouritesFragment))
         setupActionBarWithNavController(navController,appBarConfiguration)
 
         bottomNavView.setupWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.navHostMain)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

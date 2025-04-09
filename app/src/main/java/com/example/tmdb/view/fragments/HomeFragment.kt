@@ -5,15 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.databinding.FragmentHomeBinding
+import com.example.tmdb.model.Response
 import com.example.tmdb.model.Result
+import com.example.tmdb.networking.RestApiCollection
+import com.example.tmdb.networking.RetrofitBuilder
+import com.example.tmdb.repository.MovieRepoImpl
 import com.example.tmdb.view.ItemClickListener
 import com.example.tmdb.view.adapters.PopularMoviesAdapter
 import com.example.tmdb.viewmodel.MovieViewModel
 import com.example.tmdb.viewmodel.MovieViewModelFactory
+import java.util.Collections.emptyList
 
 class HomeFragment : Fragment(),ItemClickListener {
 
@@ -23,8 +29,9 @@ class HomeFragment : Fragment(),ItemClickListener {
 
    private lateinit var binding: FragmentHomeBinding
 
-   private val viewModel: MovieViewModel by lazy {
-       ViewModelProvider(this, MovieViewModelFactory()).get(MovieViewModel::class.java)
+   private val viewModel: MovieViewModel by viewModels {
+       val apiService = RetrofitBuilder.apiService
+       MovieViewModelFactory(MovieRepoImpl(apiService))
    }
 
     private var adapter: PopularMoviesAdapter? = null
@@ -32,7 +39,7 @@ class HomeFragment : Fragment(),ItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,33 +52,37 @@ class HomeFragment : Fragment(),ItemClickListener {
         binding.rv.adapter = adapter
         binding.rv.layoutManager = GridLayoutManager(requireContext(),3)
 
-        viewModel.movie.observe(viewLifecycleOwner,
-            {movie ->
-                movie.let { list->
-                   adapter?.update(list.results!!)
+        viewModel.moviesResponse.observe(viewLifecycleOwner
+        ) { response ->
+           when(response){
+               is Response.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE;
+               }
+               is Response.Success -> {
 
-                }
-
-            }
-
-        )
-
-
-
-
+                   binding.progressBar.visibility = View.GONE
+                   val movieList = response.data
+                   movieList.results?.let { adapter?.update(it) }
+               }
+               is Response.Error ->{
+                   val message = response.errorMessage ?: "Something went wrong"
+                   Toast.makeText(context,message,Toast.LENGTH_LONG).show()
+               }
+           }
+        }
     }
 
     override fun onClick(position: Int, result: Result) {
 
-        val action = HomeFragmentDirections
-                    .actionHomeFragmentToMovieOverviewFragment(
-                        result.title!!,
-                        result.backdropPath!!,
-                        result.overview!!,
-                        result.adult.toString()!!,
-                        result.releaseDate!!,
-                        result.voteAverage?.toFloat()!!
-                    )
+        val action = HomeFragmentDirections.actionHomeFragmentToMovieOverviewFragment(
+            result.backdropPath ?: "",
+            result.overview ?: "No overview available.",
+            result.title ?: "Untitled",
+            result.adult?.toString() ?: "false",
+            result.releaseDate ?: "Unknown",
+            result.voteAverage?.toFloat() ?: 0.0f
+        )
+
         findNavController().navigate(action)
     }
 

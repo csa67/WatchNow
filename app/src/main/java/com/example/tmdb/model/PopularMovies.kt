@@ -2,8 +2,6 @@ package com.example.tmdb.model
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-
-
 @Keep
 data class PopularMovies(
     @SerializedName("page")

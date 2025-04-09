@@ -10,7 +10,7 @@ class FavRepoImpl(private val dao: FavDao):FavRepo {
         dao.addFavMovie(favMovie)
     }
 
-    override fun getFavMoviesList(): Flow<List<FavMovie>> {
+    override suspend fun getFavMoviesList(): Flow<List<FavMovie>> {
         return dao.getFavMoviesList()
     }
 
