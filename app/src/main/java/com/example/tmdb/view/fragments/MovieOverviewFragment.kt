@@ -2,20 +2,20 @@ package com.example.tmdb.view.fragments
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContentProviderCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMovieOverviewBinding
 import com.example.tmdb.db.FavDataBase
 import com.example.tmdb.model.FavMovie
+import com.example.tmdb.model.Movie
 import com.example.tmdb.repository.FavRepoImpl
 import com.example.tmdb.viewmodel.FavViewModel
 import com.example.tmdb.viewmodel.FavViewModelFactory
@@ -26,7 +26,6 @@ class MovieOverviewFragment : Fragment() {
 
     private val args: MovieOverviewFragmentArgs by navArgs()
     private lateinit var binding: FragmentMovieOverviewBinding
-    private lateinit var favViewModel: FavViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,43 +40,39 @@ class MovieOverviewFragment : Fragment() {
 
         val database = FavDataBase.getDatabase(requireContext())
         val repository = FavRepoImpl(database.favDao())
-        favViewModel = ViewModelProvider(this, FavViewModelFactory(repository))[FavViewModel::class.java]
-
-        val movieTitle = args.movieTitle
-        val movieBackdrop = args.moviePoster
-        val description = args.description
-        val adultRated = args.adult
-        val rating = args.rating
-
-        binding.txtItemTitle.text = movieTitle
-
-        val imageUrl = "https://image.tmdb.org/t/p/w500$movieBackdrop"
-        Glide.with(view.context)
-            .load(imageUrl)
-            .into(binding.imgItemPoster)
-
-        binding.txtitemDescription.text = description
-        binding.txtItemAdult.visibility = if (adultRated == "true") View.VISIBLE else View.GONE
+        var favViewModel: FavViewModel = ViewModelProvider(this, FavViewModelFactory(repository))[FavViewModel::class.java]
+        val movie: Movie = args.movie
 
         val releaseYear = try {
-            LocalDate.parse(args.releaseyear, DateTimeFormatter.ISO_DATE).year.toString()
+            LocalDate.parse(movie.releaseYear, DateTimeFormatter.ISO_DATE).year.toString()
         } catch (e: Exception) {
             "Unknown"
         }
+
+        binding.txtItemTitle.text = movie.title
+        binding.txtitemDescription.text = movie.description
+        binding.txtItemAdult.visibility = if (movie.adult) View.VISIBLE else View.GONE
         binding.txtItemReleaseYear.text = releaseYear
-        binding.txtItemRating.text = rating.toString()
+        binding.txtItemRating.text = movie.rating.toString()
+
+        val imageUrl = "https://image.tmdb.org/t/p/w500${movie.poster}"
+        Glide.with(requireContext())
+            .load(imageUrl)
+            .into(binding.imgItemPoster)
 
         binding.btnAddFav.setOnCheckedChangeListener { _, isChecked ->
-            System.out.println("Name $movieTitle and poster $movieBackdrop")
-            val favMovie = FavMovie(name = movieTitle, posterURL = movieBackdrop)
+            val favMovie = FavMovie(name = movie.title, posterURL = movie.poster)
             if (isChecked) {
-                Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show()
                 favViewModel.addFavMovie(favMovie)
             } else {
-                Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show()
                 favViewModel.delFavMovie(favMovie)
             }
         }
+
+        favViewModel.toastMessage.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
+        }
     }
+
 
 }

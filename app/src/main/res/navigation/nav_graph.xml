@@ -25,29 +25,7 @@
         android:label="Movie Overview"
         tools:layout="@layout/fragment_movie_overview" >
         <argument
-            android:name="movieTitle"
-            app:argType="string"
-            android:defaultValue="Movie Title" />
-        <argument
-            android:name="moviePoster"
-            app:argType="string" />
-        <argument
-            android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="adult"
-            app:argType="string"
-            android:defaultValue="18+" />
-        <argument
-            android:name="releaseyear"
-            app:argType="string"
-            android:defaultValue="2021" />
-        <argument
-            android:name="rating"
-            android:defaultValue="5.1" />
-        <argument
-            android:name="fav"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:name="movie"
+            app:argType="com.example.tmdb.model.Movie" />
     </fragment>
 </navigation>

@@ -16,11 +16,11 @@ abstract class FavDataBase: RoomDatabase() {
         @Volatile
         private var INSTANCE: FavDataBase?= null
 
-        fun getDatabase(context: Context?): FavDataBase{
+        fun getDatabase(context: Context): FavDataBase{
 
             return INSTANCE?: synchronized(this){
                 val instance = Room.databaseBuilder(
-                    context!!.applicationContext,
+                    context.applicationContext,
                     FavDataBase::class.java,
                     "fav_movies_db"
                 ).build()

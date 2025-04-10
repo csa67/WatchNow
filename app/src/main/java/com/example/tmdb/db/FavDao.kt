@@ -10,7 +10,7 @@ interface FavDao {
     @Query("SELECT * FROM favourites order by id DESC")
     fun getFavMoviesList() : Flow<List<FavMovie>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addFavMovie(favMovie: FavMovie)
 
     @Delete

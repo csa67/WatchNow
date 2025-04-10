@@ -1,18 +1,18 @@
 package com.example.tmdb.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.databinding.FragmentHomeBinding
+import com.example.tmdb.model.Movie
 import com.example.tmdb.model.Response
 import com.example.tmdb.model.Result
-import com.example.tmdb.networking.RestApiCollection
 import com.example.tmdb.networking.RetrofitBuilder
 import com.example.tmdb.repository.MovieRepoImpl
 import com.example.tmdb.view.ItemClickListener
@@ -23,10 +23,6 @@ import java.util.Collections.emptyList
 
 class HomeFragment : Fragment(),ItemClickListener {
 
-    companion object{
-        fun newInstance() = HomeFragment()
-    }
-
    private lateinit var binding: FragmentHomeBinding
 
    private val viewModel: MovieViewModel by viewModels {
@@ -34,7 +30,7 @@ class HomeFragment : Fragment(),ItemClickListener {
        MovieViewModelFactory(MovieRepoImpl(apiService))
    }
 
-    private var adapter: PopularMoviesAdapter? = null
+    private lateinit var adapter: PopularMoviesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +58,7 @@ class HomeFragment : Fragment(),ItemClickListener {
 
                    binding.progressBar.visibility = View.GONE
                    val movieList = response.data
-                   movieList.results?.let { adapter?.update(it) }
+                   movieList.results?.let { adapter.update(it) }
                }
                is Response.Error ->{
                    val message = response.errorMessage ?: "Something went wrong"
@@ -74,15 +70,16 @@ class HomeFragment : Fragment(),ItemClickListener {
 
     override fun onClick(position: Int, result: Result) {
 
-        val action = HomeFragmentDirections.actionHomeFragmentToMovieOverviewFragment(
-            result.backdropPath ?: "",
-            result.overview ?: "No overview available.",
-            result.title ?: "Untitled",
-            result.adult?.toString() ?: "false",
-            result.releaseDate ?: "Unknown",
-            result.voteAverage?.toFloat() ?: 0.0f
+        val movie = Movie(
+            poster = result.backdropPath?: "",
+            adult = result.adult ?: false,
+            title = result.title ?: "Untitled",
+            releaseYear = result.releaseDate ?: "Unknown",
+            description = result.overview ?: "No overview available",
+            rating = result.voteAverage?.toFloat() ?: 0.0f,
+            isFav = false
         )
-
+        val action = HomeFragmentDirections.actionHomeFragmentToMovieOverviewFragment(movie)
         findNavController().navigate(action)
     }
 

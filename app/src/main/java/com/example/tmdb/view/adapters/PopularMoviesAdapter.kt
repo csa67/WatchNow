@@ -8,7 +8,7 @@ import com.example.tmdb.databinding.MovieTitleBinding
 import com.example.tmdb.model.Result
 import com.example.tmdb.view.ItemClickListener
 
-class PopularMoviesAdapter(private var popularMoviesList: List<Result>, val listener: ItemClickListener): RecyclerView.Adapter<PopularMoviesAdapter.ViewHolder>() {
+class PopularMoviesAdapter(private var popularMoviesList: List<Result>, private val listener: ItemClickListener): RecyclerView.Adapter<PopularMoviesAdapter.ViewHolder>() {
 
     fun update(list: List<Result>){
         this.popularMoviesList = list
