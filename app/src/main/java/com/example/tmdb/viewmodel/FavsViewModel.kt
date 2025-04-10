@@ -14,7 +14,7 @@ class FavViewModel(private val repo: FavRepo): ViewModel() {
     lateinit var favMoviesList: LiveData<List<FavMovie>>
 
     private var _toastMessage = MutableLiveData<String>()
-    val toastMessage: LiveData<String> = _toastMessage
+    val toastMessage: LiveData<String?> = _toastMessage
     init{
         viewModelScope.launch {
             favMoviesList = repo.getFavMoviesList().asLiveData()
@@ -33,6 +33,10 @@ class FavViewModel(private val repo: FavRepo): ViewModel() {
             repo.delFavMovie(favMovie)
             _toastMessage.value = "Removed movie from favourites"
         }
+    }
+
+    fun clearToastMessage() {
+        _toastMessage.value = null
     }
 
 

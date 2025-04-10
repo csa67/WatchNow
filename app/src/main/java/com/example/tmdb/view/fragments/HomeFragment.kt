@@ -23,28 +23,28 @@ import java.util.Collections.emptyList
 
 class HomeFragment : Fragment(),ItemClickListener {
 
-   private lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-   private val viewModel: MovieViewModel by viewModels {
-       val apiService = RetrofitBuilder.apiService
-       MovieViewModelFactory(MovieRepoImpl(apiService))
-   }
+    private val viewModel: MovieViewModel by viewModels {
+        val apiService = RetrofitBuilder.apiService
+        MovieViewModelFactory(MovieRepoImpl(apiService))
+    }
 
-    private lateinit var adapter: PopularMoviesAdapter
+    private val adapter by lazy { PopularMoviesAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PopularMoviesAdapter(this)
         binding.rv.adapter = adapter
         binding.rv.layoutManager = GridLayoutManager(requireContext(),3)
 
@@ -64,7 +64,7 @@ class HomeFragment : Fragment(),ItemClickListener {
                }
                is Response.Error ->{
                    val message = response.errorMessage ?: "Something went wrong"
-                   Toast.makeText(context,message,Toast.LENGTH_LONG).show()
+                   Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
                }
            }
         }
@@ -85,7 +85,10 @@ class HomeFragment : Fragment(),ItemClickListener {
         findNavController().navigate(action)
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 
 }
