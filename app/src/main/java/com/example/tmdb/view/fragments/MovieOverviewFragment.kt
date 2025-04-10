@@ -40,7 +40,7 @@ class MovieOverviewFragment : Fragment() {
 
         val database = FavDataBase.getDatabase(requireContext())
         val repository = FavRepoImpl(database.favDao())
-        var favViewModel: FavViewModel = ViewModelProvider(this, FavViewModelFactory(repository))[FavViewModel::class.java]
+        val favViewModel: FavViewModel = ViewModelProvider(this, FavViewModelFactory(repository))[FavViewModel::class.java]
         val movie: Movie = args.movie
 
         val releaseYear = try {
