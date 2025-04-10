@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
-        android:text="18+"
+        android:text="@string/_18"
         style="@style/Text"
         app:layout_constraintStart_toEndOf="@id/txtItemReleaseYear"
         app:layout_constraintTop_toBottomOf="@id/txtItemTitle"/>
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:layout_marginTop="5dp"
-        style="@style/Headline"
+        style="@style/Headline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtItemReleaseYear"/>
