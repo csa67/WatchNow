@@ -44,7 +44,7 @@ class HomeFragment : Fragment(),ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PopularMoviesAdapter(emptyList(),this)
+        adapter = PopularMoviesAdapter(this)
         binding.rv.adapter = adapter
         binding.rv.layoutManager = GridLayoutManager(requireContext(),3)
 
@@ -58,7 +58,9 @@ class HomeFragment : Fragment(),ItemClickListener {
 
                    binding.progressBar.visibility = View.GONE
                    val movieList = response.data
-                   movieList.results?.let { adapter.update(it) }
+                   movieList.results?.let {
+                       adapter.submitList(it)
+                   }
                }
                is Response.Error ->{
                    val message = response.errorMessage ?: "Something went wrong"
